@@ -8,6 +8,8 @@ public class FollowPath : MonoBehaviour
     public List<Vector3> path;
     public float speed = 2.0f;
 
+    public bool reverse = false;
+
     //unity doesnt initialize the PRIVATE list for us
     //private List<Vector3> path = new();
 
@@ -25,6 +27,9 @@ public class FollowPath : MonoBehaviour
             if(index >= path.Count)
             {
                 index = 0;
+
+                if (reverse) path.Reverse();
+                             
             }
         }
 
