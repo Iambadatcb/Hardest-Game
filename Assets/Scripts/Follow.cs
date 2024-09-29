@@ -7,6 +7,22 @@ public class Follow : MonoBehaviour
     public Transform target;
     public float speed = 2.0f;
 
+    Vector3 startPos;
+
+    private void Start()
+    {
+        startPos = transform.position;
+    }
+
+    public void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            
+            transform.position = startPos;
+        }
+    }
+
     void Update()
     {
         //rotate enemy to look at player
