@@ -5,34 +5,45 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public GameObject teleporter;
-    public Renderer coin;
-    public int count = 0;
+    public Renderer coinRenderer;
+    public static int count;
     private bool isTeleporterActivated = false;
 
     void Start()
     {
+        // Initialize the teleporter as inactive
         teleporter.SetActive(false);
+        count = 0;
+
+        // Get all coins in the scene
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
+
+        // Set the count to the number of coins
+        count = coins.Length;
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (count >= 10)
+        // Check if the collided object is the player
+        if (collision.gameObject.tag == "Player")
         {
-            if (!isTeleporterActivated)
+            // Disable the current coin
+            coinRenderer.enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
+
+            // Decrement the count
+            count--;
+
+            // Check if the count is less than or equal to 0
+            if (count <= 0)
             {
-                teleporter.SetActive(true);
-                isTeleporterActivated = true;
-            }
-        }
-        else
-        {
-            if (collision.gameObject.tag == "Player")
-            {
-                coin.enabled = false;
-                coin.GetComponent<SphereCollider>().enabled = false;
-                count++;
+                // Activate the teleporter if it's not already active
+                if (!isTeleporterActivated)
+                {
+                    teleporter.SetActive(true);
+                    isTeleporterActivated = true;
+                }
             }
         }
     }
 }
-
